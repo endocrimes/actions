@@ -13,14 +13,14 @@ if [[ -z $GITHUB_WORKSPACE ]]; then
   exit 78
 fi
 
-action="$(jq '.action' "$GITHUB_EVENT_PATH")"
+action="$(jq -r '.action' "$GITHUB_EVENT_PATH")"
 
-if [ '"opened"' != "$action" ]; then
+if [ 'opened' != "$action" ]; then
   echo "Action is not open, terminating workflow"
   exit 78
 fi
 
-issue_body="$(jq '.issue.body' "$GITHUB_EVENT_PATH")"
+issue_body="$(jq -r '.issue.body' "$GITHUB_EVENT_PATH")"
 
 if [ '""' == "$issue_body" ]; then
   echo "Issue is empty - Continuing workflow"
@@ -32,7 +32,7 @@ ISSUE_TEMPLATE_PATH="$GITHUB_WORKSPACE/.github/ISSUE_TEMPLATE.md"
 if [[ -s $ISSUE_TEMPLATE_PATH ]]; then
   issue_template=$(cat "$ISSUE_TEMPLATE_PATH")
 
-  if [[ "$issue_body" == "\"$issue_template\"" ]]; then
+  if [[ "$issue_body" == "$issue_template" ]]; then
     echo "Issue is equal to issue template - continuing workflow"
     exit 0
   fi
