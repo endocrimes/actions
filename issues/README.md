@@ -19,9 +19,32 @@ The inverse command is available as `"filter not_spam"`
 
 Usage:
 ```hcl
-action "action-issue-valid" {
-  uses = "endocrimes/issues/filter@master"
-  args = "action synchronized"
+action "Detect Spam" {
+  uses = "endocrimes/actions/issues@master"
+  args = "filter spam"
 }
 ```
 
+### `"comment"`
+
+This action will reply to the issue that is referenced in the current event.
+
+Usage:
+```hcl
+action "Reply" {
+  uses = "endocrimes/actions/issues@master"
+  args = "comment Hello, how are you today?"
+}
+```
+
+### `"close"`
+
+This action will close the issue that is referenced in the current event.
+
+Usage:
+```hcl
+action "Close" {
+  uses = "endocrimes/actions/issues@master"
+  args = "close"
+}
+```

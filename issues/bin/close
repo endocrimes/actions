@@ -15,13 +15,6 @@ if [[ -z $GITHUB_TOKEN ]]; then
   exit 78
 fi
 
-action="$(jq -r '.action' "$GITHUB_EVENT_PATH")"
-
-if [ 'opened' != "$action" ]; then
-  echo "Action is not open, terminating workflow"
-  exit 78
-fi
-
 issue_url="$(jq -r '.issue.url' "$GITHUB_EVENT_PATH")"
 
 curl -X PATCH \
