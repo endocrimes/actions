@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#
+# This action will close the issue that was opened in $GITHUB_EVENT_PATH.
+
+set -o errexit
+set -o pipefail
+
+if [[ -z $GITHUB_EVENT_PATH ]]; then
+  echo "Missing GITHUB_EVENT_PATH"
+  exit 78
+fi
+
+if [[ -z $GITHUB_TOKEN ]]; then
+  echo "Missing GITHUB_TOKEN"
+  exit 78
+fi
+
+action="$(jq -r '.action' "$GITHUB_EVENT_PATH")"
+
+if [ 'opened' != "$action" ]; then
+  echo "Action is not open, terminating workflow"
+  exit 78
+fi
+
+issue_url="$(jq -r '.issue.url' "$GITHUB_EVENT_PATH")"
+
+curl -X PATCH \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/vnd.github.symmetra-preview+json" \
+  -d "{\"state\": \"closed\"}" \
+  "$issue_url"
