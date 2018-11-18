@@ -18,7 +18,7 @@ COPY LICENSE.md README.md /
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
-        jq bash curl && \
+        jq bash curl ca-certificates && \
     apt-get clean -y && \
     rm -rf /var/lib/apt/lists/*
 
