@@ -32,12 +32,11 @@ ISSUE_TEMPLATE_PATH="$GITHUB_WORKSPACE/.github/ISSUE_TEMPLATE.md"
 if [[ -s $ISSUE_TEMPLATE_PATH ]]; then
   issue_template=$(cat "$ISSUE_TEMPLATE_PATH")
 
-  if [[ "$issue_body" == "$issue_template" ]]; then
+  if [[ "$issue_body" == "\"$issue_template\"" ]]; then
     echo "Issue is equal to issue template - continuing workflow"
     exit 0
   fi
 fi
 
 ## Stop the workflow, the issue isn't spam.
-echo "Debug: $issue_body"
 exit 1

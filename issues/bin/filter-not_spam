@@ -22,7 +22,7 @@ fi
 
 issue_body="$(jq '.issue.body' "$GITHUB_EVENT_PATH")"
 
-if [ '""' == "$issue_body" ]; then
+if [ '""' == "\"$issue_body\"" ]; then
   echo "Issue is spam - terminating workflow"
   exit 1
 fi
